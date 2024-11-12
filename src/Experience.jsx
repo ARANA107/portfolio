@@ -1,5 +1,8 @@
 import React, { Suspense } from "react";
+import { useLoader } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Html, useProgress } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
+
 function Loader() {
   const { progress } = useProgress();
   return (
@@ -11,7 +14,7 @@ function Loader() {
   );
 }
 function Model() {
-  const { scene } = useGLTF("./portfolio.gltf"); // Adjust the path to your model
+  const { scene } = useGLTF("./forest.gltf");
   return <primitive object={scene} />;
 }
 
@@ -22,19 +25,11 @@ export default function Experience() {
 
   return (
     <>
-      <spotLight
-        position={[0, 18, 2]}
-        intensity={500}
-        penumbra={0.5}
-        castShadow
-        color="white"
-      />
-
       <mesh
-        position={[2.5, 5.3, -0.2]}
-        scale={[0.33, 0.33, 0.33]}
+        position={[-5, 9, -3]}
+        scale={[2.3, 2.3, 2.3]}
         onClick={handleLampClick}
-        rotation={[0, -Math.PI / 2, 0]}
+        rotation={[6, 5.6, -Math.PI / 2]}
       >
         <circleGeometry args={[4, 100]} />
         <meshBasicMaterial opacity={0} transparent />
@@ -42,6 +37,10 @@ export default function Experience() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
       <Suspense fallback={<Loader />}>
+        <Environment
+          background
+          files="./whipple_creek_regional_park_04_4k.hdr" // Ensure the path is correct
+        />
         <Model />
       </Suspense>
       <OrbitControls />
